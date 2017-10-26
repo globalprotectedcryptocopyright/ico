@@ -1,8 +1,6 @@
 pragma solidity ^0.4.11;
 
-
 import "../ownership/Ownable.sol";
-
 
 /**
  * @title Destructible
@@ -10,16 +8,16 @@ import "../ownership/Ownable.sol";
  */
 contract Destructible is Ownable {
 
-  function Destructible() payable { } 
+    function Destructible() payable { } 
 
-  /**
-   * @dev Transfers the current balance to the owner and terminates the contract. 
-   */
-  function destroy() onlyOwner {
-    selfdestruct(owner);
-  }
+    /**
+     * @dev Transfers the current balance to the owner and terminates the contract. 
+     */
+    function destroy() onlyOwner {
+        selfdestruct(owner);
+    }
 
-  function destroyAndSend(address _recipient) onlyOwner {
-    selfdestruct(_recipient);
-  }
+    function destroyAndSend(address _recipient) onlyOwner {
+        selfdestruct(_recipient);
+    }
 }

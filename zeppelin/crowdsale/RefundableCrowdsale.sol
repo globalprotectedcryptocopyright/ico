@@ -1,10 +1,8 @@
 pragma solidity ^0.4.11;
 
-
 import '../math/SafeMath.sol';
 import './FinalizableCrowdsale.sol';
 import './RefundVault.sol';
-
 
 /**
  * @title RefundableCrowdsale
@@ -31,16 +29,18 @@ contract RefundableCrowdsale is FinalizableCrowdsale {
     // We're overriding the fund forwarding from Crowdsale.
     // In addition to sending the funds, we want to call
     // the RefundVault deposit function
+    // function forwardFunds(address beneficiary, uint amountWei) internal {
+    //     vault.deposit.value(amountWei)(beneficiary);
+    // }
     function forwardFunds(uint amountWei) internal {
         if (goalReached()) {
             wallet.transfer(amountWei);
-        }
-        else {
+        } else {
             vault.deposit.value(amountWei)(msg.sender);
         }
     }
 
-    // if crowdsale is unsuccessful, investors can claim refunds here
+    // If crowdsale is unsuccessful, investors can claim refunds here
     function claimRefund() public {
         require(isFinalized);
         require(!goalReached());
@@ -56,14 +56,13 @@ contract RefundableCrowdsale is FinalizableCrowdsale {
         vault.close();
     }
 
-    // vault finalization task, called when owner calls finalize()
+    // Vault finalization task, called when owner calls finalize()
     function finalization() internal {
         super.finalization();
 
         if (goalReached()) {
             vault.close();
-        }
-        else {
+        } else {
             vault.enableRefunds();
         }
     }
@@ -71,5 +70,4 @@ contract RefundableCrowdsale is FinalizableCrowdsale {
     function goalReached() public constant returns (bool) {
         return weiRaised >= goal;
     }
-
 }

@@ -1,10 +1,8 @@
 pragma solidity ^0.4.11;
 
-
 import '../math/SafeMath.sol';
 import '../ownership/Ownable.sol';
 import './Crowdsale.sol';
-
 
 /**
  * @title FinalizableCrowdsale

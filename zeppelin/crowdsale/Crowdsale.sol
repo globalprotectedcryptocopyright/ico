@@ -1,9 +1,7 @@
 pragma solidity ^0.4.11;
 
-
 import '../token/MintableToken.sol';
 import '../math/SafeMath.sol';
-
 
 /**
  * @title Crowdsale 
@@ -52,7 +50,6 @@ contract Crowdsale {
      */
     event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint value, uint amount);
 
-
     function Crowdsale(uint32 _startTime, uint32 _endTime, uint _rate, uint _hardCap, address _wallet) {
         require(_startTime >= now);
         require(_endTime >= _startTime);
@@ -61,6 +58,7 @@ contract Crowdsale {
         require(_hardCap > _rate);
 
         token = createTokenContract();
+
         startTime = _startTime;
         endTime = _endTime;
         rate = _rate;
@@ -73,6 +71,7 @@ contract Crowdsale {
     function createTokenContract() internal returns (MintableToken) {
         return new MintableToken();
     }
+
 
     /**
      * @dev this method might be overridden for implementing any sale logic.
@@ -90,12 +89,13 @@ contract Crowdsale {
         return 1;
     }
 
-    // fallback function can be used to buy tokens
+
+    // Fallback function can be used to buy tokens
     function() payable {
         buyTokens(msg.sender, msg.value);
     }
 
-    // low level token purchase function
+    // Low level token purchase function
     function buyTokens(address beneficiary, uint amountWei) internal {
         require(beneficiary != 0x0);
 
@@ -110,6 +110,7 @@ contract Crowdsale {
 
         // calculate token amount to be created
         uint tokens = amountWei.mul(actualRate).div(rateScale);
+
 
         // change, if minted token would be less
         uint change = 0;
@@ -126,6 +127,7 @@ contract Crowdsale {
             amountWei = realAmount;
         }
 
+
         // update state
         weiRaised = weiRaised.add(amountWei);
         soldTokens = soldTokens.add(tokens);
@@ -139,8 +141,8 @@ contract Crowdsale {
         forwardFunds(amountWei);
     }
 
-    // send ether to the fund collection wallet
-    // override to create custom fund forwarding mechanisms
+    // Send ether to the fund collection wallet
+    // Override to create custom fund forwarding mechanisms
     function forwardFunds(uint amountWei) internal {
         wallet.transfer(amountWei);
     }
@@ -177,8 +179,8 @@ contract Crowdsale {
      * @param _value Amount to spend.
      * @return true if crowdsale event has ended
      */
-    function hasEnded(uint _value) public constant returns (bool) {
-        uint actualRate = getRate(_value);
-        return now > endTime || token.totalSupply() > hardCap.sub(actualRate);
-    }
+    // function hasEnded(uint _value) public constant returns (bool) {
+    //     uint actualRate = getRate(_value);
+    //     return now > endTime || token.totalSupply() > hardCap.sub(actualRate);
+    // }
 }

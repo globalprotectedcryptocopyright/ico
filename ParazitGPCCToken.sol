@@ -1,9 +1,9 @@
 pragma solidity ^0.4.16;
 
-import "./zeppelin/token/MintableToken.sol";
-import "./zeppelin/math/SafeMath.sol";
+import './zeppelin/token/MintableToken.sol';
+import './zeppelin/math/SafeMath.sol';
 
-import "./ParazitConstants.sol";
+import './ParazitConstants.sol';
 
 // Token contract
 contract ParazitGPCCToken is usingParazitConstants, MintableToken {
