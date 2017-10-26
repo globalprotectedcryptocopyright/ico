@@ -13,17 +13,15 @@ contract ParazitMainCrowdsale is usingParazitConstants, RefundableCrowdsale {
 	function ParazitMainCrowdsale (
 		uint32 _startTime, // pre ico start time
 		uint32 _endTime, // ?
-		// uint _rate,
 		uint _softCapWei, // ? goal 
 		uint _hardCapTokens, // 200000000
 		address _wallet // ?
 	) RefundableCrowdsale(
         _startTime, 
-        _endTime, 
-        100, // ?
+        _endTime,
         _hardCapTokens * TOKEN_DECIMAL_MULTIPLIER, 
         _wallet, 
-        _softCapWei 
+        _softCapWei
 	) {
 	}
 
@@ -32,10 +30,16 @@ contract ParazitMainCrowdsale is usingParazitConstants, RefundableCrowdsale {
         return new ParazitGPCCToken();
     }
 
+
 	// Override getRate to integrate with rate provider.
     function getRate() internal constant returns(uint) {
 		return rateProvider.getRate(msg.sender, soldTokens);
     }
+
+    function getBaseRate() internal constant returns (uint) {
+        return rateProvider.getRate(msg.sender, soldTokens);
+    }
+
 
     // Admin can set new rate provider.
     function setRateProvider(address _rateProviderAddress) onlyOwner {

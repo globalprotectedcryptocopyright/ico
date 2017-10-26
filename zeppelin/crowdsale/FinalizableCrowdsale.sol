@@ -16,8 +16,13 @@ contract FinalizableCrowdsale is Crowdsale, Ownable {
 
     event Finalized();
 
-    function FinalizableCrowdsale(uint32 _startTime, uint32 _endTime, uint _rate, uint _hardCap, address _wallet)
-            Crowdsale(_startTime, _endTime, _rate, _hardCap, _wallet) {
+    modifier notFinalized() {
+        require(!isFinalized);
+        _;
+    }
+
+    function FinalizableCrowdsale(uint32 _startTime, uint32 _endTime, uint _hardCap, address _wallet)
+            Crowdsale(_startTime, _endTime, _hardCap, _wallet) {
     }
 
     /**
