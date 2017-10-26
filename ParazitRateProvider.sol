@@ -1,6 +1,6 @@
 pragma solidity ^0.4.16;
 
-import './zeppelin/ownership/Ownable.sol';
+// import './zeppelin/ownership/Ownable.sol';
 import './zeppelin/math/SafeMath.sol';
 
 import './ParazitConstants.sol';
@@ -15,7 +15,7 @@ contract ParazitRateProviderI {
     function getRate(address buyer, uint totalSold) public constant returns (uint);
 }
 
-contract ParazitRateProvider is usingParazitConstants, Ownable {
+contract ParazitRateProvider is usingParazitConstants {
     using SafeMath for uint;
 
     uint constant BASE_RATE = 1;

@@ -67,15 +67,11 @@ contract Crowdsale {
         return new MintableToken();
     }
 
-
     /**
      * @dev this method might be overridden for implementing any sale logic.
      * @return Actual rate.
      */
     function getRate() internal constant returns (uint);
-
-    function getBaseRate() internal constant returns (uint);
-
 
     // Fallback function can be used to buy tokens
     function() payable {
@@ -150,7 +146,7 @@ contract Crowdsale {
      * @return true if crowdsale event has ended
      */
     function hasEnded() public constant returns (bool) {
-        return now > endTime || token.totalSupply() > hardCap.sub(getBaseRate());
+        return now > endTime || token.totalSupply() > hardCap.sub(getRate());
     }
 
     /**

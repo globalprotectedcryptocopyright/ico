@@ -6,7 +6,7 @@ import './ParazitConstants.sol';
 import './ParazitRateProvider.sol';
 import './ParazitGPCCToken.sol';
 
-// Crowdsale contract (ico + pre ico)
+// Crowdsale contract (pre-ico + ico)
 contract ParazitMainCrowdsale is usingParazitConstants, RefundableCrowdsale {
 	ParazitRateProviderI public rateProvider;
 
@@ -30,16 +30,10 @@ contract ParazitMainCrowdsale is usingParazitConstants, RefundableCrowdsale {
         return new ParazitGPCCToken();
     }
 
-
 	// Override getRate to integrate with rate provider.
     function getRate() internal constant returns(uint) {
 		return rateProvider.getRate(msg.sender, soldTokens);
     }
-
-    function getBaseRate() internal constant returns (uint) {
-        return rateProvider.getRate(msg.sender, soldTokens);
-    }
-
 
     // Admin can set new rate provider.
     function setRateProvider(address _rateProviderAddress) onlyOwner {
