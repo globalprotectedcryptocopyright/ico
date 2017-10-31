@@ -1,5 +1,9 @@
 pragma solidity ^0.4.16;
 
+/**
+ * ATTENTION! Source code of zeppelin smart contract was changed.
+ */
+
 import './zeppelin/crowdsale/RefundableCrowdsale.sol';
 
 import './ParazitConstants.sol';
@@ -17,7 +21,7 @@ contract ParazitMainCrowdsale is ParazitConstants, RefundableCrowdsale {
 
     ParazitMainRateProviderI public rateProvider;
     bool private isInit = false;
-
+    
     //1509281673,1509282633,"16666666666666666666666","200000000","0xca35b7d915458ef540ade6068dfe2f44e8fa733c","0x5e72914535f202659083db3a02c984188fa26e9f"
 	function ParazitMainCrowdsale (
 		uint32 _startTime, // crowdsale start time
@@ -67,9 +71,9 @@ contract ParazitMainCrowdsale is ParazitConstants, RefundableCrowdsale {
     }
 
     // Override getRateScale to integrate with rate provider.
-    function getRateScale() internal constant returns (uint) {
-        return rateProvider.getRateScale();
-    }
+    // function getRateScale() internal constant returns (uint) {
+    //     return rateProvider.getRateScale();
+    // }
 
     // Admin can set new rate provider.
     function setRateProvider(address _rateProviderAddress) onlyOwner {
@@ -93,4 +97,12 @@ contract ParazitMainCrowdsale is ParazitConstants, RefundableCrowdsale {
         }
         token.transferOwnership(owner);
     }
+
+
+    function validPurchase(uint _amountWei, uint _actualRate, uint _totalSupply) internal constant returns (bool) {
+        require(isInit);
+        return super.validPurchase(_amountWei, _actualRate, _totalSupply);
+    }
+
+    
 }
